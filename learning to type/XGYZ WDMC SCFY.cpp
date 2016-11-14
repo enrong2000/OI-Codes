@@ -10,18 +10,25 @@
 #include <time.h>
 #include <list>
 #include <map>
-#include <set>
 #include <queue>
+#include <set>
 #include <vector>
 #include <algorithm>
 #include <functional>
 #include <iostream>
 
 using namespace std;
+
 #define INF 0x3f3f3f3f
+#define N 100010
+#define lson ((id)<<1)
+#define rson ((id)<<1|1)
+#define mid  ((l+r)>>1)
+int A[N], Add[N << 2], Sum[N << 2];
+int n, i, ask, cmd, xx, yy, va;
 #define int long long
 
-inline int in()
+int in()
 {
 	int ch = getchar(), x = 0, f = 1;
 	while (ch < '0' || ch > '9')
@@ -35,17 +42,10 @@ inline int in()
 		x = x * 10 + ch - '0';
 		ch = getchar();
 	}
-	return x * f;
+	return (x * f);
 }
 
 #undef int
-#define N 100010
-#define lson ((id)<<1)
-#define rson ((id)<<1|1)
-#define mid ((l+r)>>1)
-
-int A[N], Sum[N << 2], Add[N << 2];//Add stores lazy
-int n;
 
 void PushUp(int id)
 {
@@ -76,7 +76,6 @@ void Build(int l, int r, int id)
 	PushUp(id);
 }
 
-//Point
 void Update1(int L, int val, int l, int r, int id)
 {
 	if (l == r)
@@ -89,13 +88,12 @@ void Update1(int L, int val, int l, int r, int id)
 	PushUp(id);
 }
 
-//AQIZ UJDZ
 void Update2(int L, int R, int val, int l, int r, int id)
 {
 	if (L <= l && r <= R)
 	{
 		Sum[id] += val * (r - l + 1);
-		Add[id] += val;
+		Add[id] = val;
 		return;
 	}
 	PushDown(id, mid - l + 1, r - mid);
@@ -113,7 +111,6 @@ int Query(int L, int R, int l, int r, int id)
 	PushDown(id, mid - l + 1, r - mid);
 	int ANS = 0;
 	if (L <= mid) ANS += Query(L, R, l, mid, lson);
-	if (L > mid) ANS += Query(L, R, mid + 1, r, rson);
-	return ANS;
+	if (R > mid) ANS += Query(L, R, mid + 1, r, rson);
+	PushUp(id);
 }
-//Trying to type
