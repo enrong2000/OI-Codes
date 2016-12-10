@@ -93,7 +93,7 @@ void Update2(int L, int R, int val, int l, int r, int id)
 	if (L <= l && r <= R)
 	{
 		Sum[id] += val * (r - l + 1);
-		Add[id] = val;
+		Add[id] += val;
 		return;
 	}
 	PushDown(id, mid - l + 1, r - mid);
